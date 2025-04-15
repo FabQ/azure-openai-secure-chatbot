@@ -51,7 +51,7 @@ terraform apply
 ```
 
 ## 📄 Related Blog Post
-See full walkthrough here: [How I Built a Minimal Azure OpenAI Chatbot Using Flask, Terraform and GPT-4o]([https://medium.com/@fhennek/from-zero-to-mvp-getting-hands-on-with-azure-openai-no-buzzwords-just-code-75ab555cf25c](https://medium.com/@fhennek/how-i-built-a-minimal-azure-openai-chatbot-using-flask-terraform-and-gpt-4o-250f37d28920))
+See full walkthrough here: [How I Built a Minimal Azure OpenAI Chatbot Using Flask, Terraform and GPT-4o](https://medium.com/@fhennek/how-i-built-a-minimal-azure-openai-chatbot-using-flask-terraform-and-gpt-4o-250f37d28920)
 
 ## 📁 Structure
 - `app/` – Flask app with Azure OpenAI call
