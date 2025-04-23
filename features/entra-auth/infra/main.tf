@@ -1,26 +1,17 @@
-provider "azurerm" {
-  features {}
-}
-
-resource "azurerm_resource_group" "rg" {
-  name     = var.resource_group_name
-  location = var.location
-}
-
-resource "azurerm_cognitive_account" "openai" {
-  name                = var.openai_name
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-  kind                = "OpenAI"
-  sku_name            = "S0"
-}
-
-resource "azurerm_cognitive_deployment" "deployment" {
-  name                 = var.deployment_name
-  cognitive_account_id = azurerm_cognitive_account.openai.id
-  model {
-    format  = "OpenAI"
-    name    = "gpt-35-turbo"
-    version = "0613"
+resource "azuread_application" "chatbot_app" {
+  display_name = var.app_display_name
+  sign_in_audience = "AzureADMyOrg"
+  web {
+    redirect_uris = ["http://localhost:5000"]
   }
+}
+
+resource "azuread_service_principal" "chatbot_sp" {
+  application_id = azuread_application.chatbot_app.application_id
+}
+
+resource "azuread_application_password" "chatbot_secret" {
+  application_object_id = azuread_application.chatbot_app.id
+  display_name          = "chatbot-client-secret"
+  end_date_relative     = "8760h" # 1 year
 }

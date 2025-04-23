@@ -1,15 +1,10 @@
-variable "resource_group_name" {
-  default = "rg-openai-chatbot"
+variable "tenant_id" {
+  type        = string
+  description = "Azure AD tenant ID"
 }
 
-variable "location" {
-  default = "westeurope"
-}
-
-variable "openai_name" {
-  default = "openai-chatbot-demo"
-}
-
-variable "deployment_name" {
-  default = "gpt-35-turbo"
+variable "app_display_name" {
+  type        = string
+  description = "Name of the App Registration"
+  default     = "openai-secure-chatbot"
 }

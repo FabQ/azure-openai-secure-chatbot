@@ -1,4 +1,5 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, redirect
+from auth_config import require_auth
 import os
 import requests
 from dotenv import load_dotenv
@@ -12,25 +13,32 @@ AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
 DEPLOYMENT_NAME = os.getenv("DEPLOYMENT_NAME")
 
 @app.route("/chat", methods=["POST"])
+@require_auth
 def chat():
-    data = request.json
+    data = request.get_json()
     prompt = data.get("prompt", "")
 
     headers = {
-        "Content-Type": "application/json",
-        "api-key": AZURE_OPENAI_KEY
+        "api-key": AZURE_OPENAI_KEY,
+        "Content-Type": "application/json"
     }
 
-    body = {
-        "messages": [
-            {"role": "user", "content": prompt}
-        ]
+    payload = {
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7
     }
 
-    url = f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{DEPLOYMENT_NAME}/chat/completions?api-version=2023-03-15-preview"
+    response = requests.post(
+        f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/{DEPLOYMENT_NAME}/chat/completions?api-version=2024-03-01-preview",
+        headers=headers,
+        json=payload
+    )
 
-    response = requests.post(url, headers=headers, json=body)
     return jsonify(response.json())
+
+@app.route("/")
+def index():
+    return redirect("/chat")
 
 if __name__ == "__main__":
     app.run(debug=True)
