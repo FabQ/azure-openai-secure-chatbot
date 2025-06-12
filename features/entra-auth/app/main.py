@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, redirect
+from flask import Flask, request, jsonify
 from auth_config import require_auth
 import os
 import requests
@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", static_url_path="")
 
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
@@ -36,9 +36,9 @@ def chat():
 
     return jsonify(response.json())
 
-@app.route("/")
+@app.get("/")
 def index():
-    return redirect("/chat")
+    return app.send_static_file("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
