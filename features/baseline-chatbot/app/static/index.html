@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot</title>
+</head>
+<body>
+  <h1>Azure OpenAI Chatbot</h1>
+  <textarea id="prompt" rows="4" cols="50" placeholder="Enter your question"></textarea><br>
+  <button id="send">Send</button>
+  <pre id="response"></pre>
+
+<script>
+  document.getElementById('send').onclick = async () => {
+    const prompt = document.getElementById('prompt').value;
+    const res = await fetch('/chat', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({prompt})
+    });
+    const data = await res.json();
+    document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+  };
+</script>
+</body>
+</html>

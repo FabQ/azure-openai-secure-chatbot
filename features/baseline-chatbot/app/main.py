@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", static_url_path="")
 
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_KEY = os.getenv("AZURE_OPENAI_KEY")
@@ -31,6 +31,11 @@ def chat():
 
     response = requests.post(url, headers=headers, json=body)
     return jsonify(response.json())
+
+
+@app.get("/")
+def index():
+    return app.send_static_file("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -38,6 +38,8 @@ cp app/.env.example app/.env
 python app/main.py
 ```
 
+Then open [http://127.0.0.1:5000/](http://127.0.0.1:5000/) in your browser to use the simple web UI.
+
 ### 6. Test the endpoint
 ```bash
 curl -X POST http://127.0.0.1:5000/chat -H "Content-Type: application/json" -d '{"prompt": "Tell me a joke."}'
